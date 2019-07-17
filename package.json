@@ -1,0 +1,55 @@
+{
+  "name": "city-vision",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@amcharts/amcharts4": "^4.5.3",
+    "@amcharts/amcharts4-geodata": "^4.1.6",
+    "@types/geojson": "^7946.0.7",
+    "@types/jest": "24.0.13",
+    "@types/mapbox-gl": "^0.51.7",
+    "@types/node": "12.0.4",
+    "@types/react": "16.8.19",
+    "@types/react-dom": "16.8.4",
+    "@types/react-redux": "^7.1.1",
+    "@types/react-router-dom": "^4.3.4",
+    "axios": "^0.19.0",
+    "mapbox-gl": "^1.0.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-redux": "^7.1.0",
+    "react-router-dom": "^5.0.1",
+    "react-scripts": "3.0.1",
+    "redux": "^4.0.1",
+    "redux-devtools-extension": "^2.13.8",
+    "redux-thunk": "^2.3.0",
+    "typescript": "3.5.1"
+  },
+  "devDependencies": {
+    "redux-devtools": "^3.5.0"
+  },
+  "main": "index.js",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "restart": "pm2 startOrRestart ecosystem.config.js",
+    "deploy": "pm2 deploy ecosystem.config.js production"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
