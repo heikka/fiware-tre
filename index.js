@@ -18,7 +18,7 @@ app.use('/tre', function (req, res, next) {
             res.statusCode = 200;
             res.setHeader('Content-Type', 'text/plain');
             //res.end(response.data);
-            res.end('ok');
+            res.end(response.explanation);
             console.log('ok:', response.data);            
         })
         .catch(error => {
