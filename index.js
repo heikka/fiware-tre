@@ -12,13 +12,13 @@ app.use(express.static('build'))
 
 
 app.use('/tre', function (req, res, next) {
-    axios.get('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY',
+    axios.get('https://context.tampere.fiware.cityvision.cloud/v2/entities?limit=800&offset=0&type=Streetlight%2CStreetlightControlCabinet%2CAmbientLightSensor%2CWasteContainer',
             { 'headers': { "FIWARE-Service": "tampere" } })
         .then(response => {
             res.statusCode = 200;
             res.setHeader('Content-Type', 'text/plain');
             //res.end(response.data);
-            res.end(response.data.explanation);
+            res.end(response.data+"");
             console.log('ok:', response.data);            
         })
         .catch(error => {
