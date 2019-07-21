@@ -8,7 +8,7 @@ app.use(express.static('build'))
 app.use('/tre', function (req, res, next) {
     axios.get('https://context.tampere.fiware.cityvision.cloud/v2/entities?limit=800&offset=0&type=Streetlight%2CStreetlightControlCabinet%2CAmbientLightSensor%2CWasteContainer')
         .then(response => {
-            res.send(response.data);
+            res.end(response.data);
             console.log('ok, ', response.data);            
         })
         .catch(error => {
@@ -18,7 +18,7 @@ app.use('/tre', function (req, res, next) {
     //console.log('Request Type:', req.method)
 
     //next()
-    res.end('completed');
+    //res.end('completed');
 })
 
 app.listen(3000, () => console.log('Server running on port 3000'))
