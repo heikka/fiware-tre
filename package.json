@@ -25,6 +25,7 @@
     "redux-thunk": "^2.3.0",
     "typescript": "3.5.1"
   },
+  "proxy": "https://context.tampere.fiware.cityvision.cloud",
   "devDependencies": {
     "redux-devtools": "^3.5.0"
   },

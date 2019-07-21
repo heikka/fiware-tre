@@ -13,18 +13,18 @@ app.use(express.static('build'))
 //https://sthdata.tampere.fiware.cityvision.cloud/v2/entities/KV-0128-263?attrs=illuminanceLevel%2CactivePower&fromDate=1561986246958&toDate=156259104695
 
 
-app.use('/tre', function (req, res, next) {
-    axios.get('https://sthdata.tampere.fiware.cityvision.cloud/v2/entities/KV-0128-263?attrs=illuminanceLevel%2CactivePower&fromDate=1561986246958&toDate=1561996246958',
-            { 'headers': { "FIWARE-Service": "tampere" } })
+app.use('/v2', function (req, res, next) {
+    axios.get('https://context.tampere.fiware.cityvision.cloud/v2/entities?limit=800&offset=0&type=Streetlight%2CStreetlightControlCabinet%2CAmbientLightSensor%2CWasteContainer',
+        { 'headers': { "FIWARE-Service": "tampere" } })
         .then(response => {
             res.statusCode = 200;
             res.setHeader('Content-Type', 'text/plain');
             //res.end(response.data);
             res.end(JSON.stringify(response.data));
-            console.log('ok:', response.data);            
+            console.log('ok:', response.data);
         })
         .catch(error => {
-            res.status(500).send('[HT0001] Error in get data : '+error);
+            res.status(500).send('[HT0001] Error in get data : ' + error);
             console.log('[HT0001] Error in get data : ', error);
         });
     //console.log('Request Type:', req.method)

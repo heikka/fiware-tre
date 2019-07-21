@@ -33,9 +33,6 @@ export class Layout extends Component {
                 <main className="content">
                     {this.props.children}
                 </main>
-
-                <TrendChart />
-
             </>
         )
     }

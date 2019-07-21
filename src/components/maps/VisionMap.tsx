@@ -38,7 +38,7 @@ export type UpdateMessageParam = React.SyntheticEvent<{ value: string }>;
   
 
   selectMapIdHandler = () => {
-    this.setState({purchasing: true});
+    //this.setState({purchasing: true});
   }
 
 

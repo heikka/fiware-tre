@@ -64,10 +64,20 @@ export const TampereMap: React.SFC<MapProps> = ({zoom, selectMapId}: MapProps) =
 
         if (!markers.length) {
             {
+                let url = '';
+                if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+                    // dev code
+                    url = 'https://context.tampere.fiware.cityvision.cloud/v2/entities?limit=800&offset=0';
+                    url += "&type=Streetlight%2CStreetlightControlCabinet%2CAmbientLightSensor%2CWasteContainer";
+                } else {
+                    // production code
+                    url = '/v2';
+                }
+
                 //let url = 'https://context.pre.fiware.cityvision.cloud/v2/entities?type=Streetlight&limit=400&offset=0';
                 //let url = 'https://context.tampere.fiware.cityvision.cloud/v2/entities?q=dateModified%3E2019-06-05T12:48:00Z';
-                let url = 'https://context.tampere.fiware.cityvision.cloud/v2/entities?limit=800&offset=0';
-                url += "&type=Streetlight%2CStreetlightControlCabinet%2CAmbientLightSensor%2CWasteContainer";
+                //let url = 'https://context.tampere.fiware.cityvision.cloud/v2/entities?limit=800&offset=0';
+                //url += "&type=Streetlight%2CStreetlightControlCabinet%2CAmbientLightSensor%2CWasteContainer";
                 axios.get(url,
                     { 'headers': { "FIWARE-Service": "tampere" } })
                     .then(res => {
