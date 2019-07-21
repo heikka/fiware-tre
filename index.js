@@ -24,6 +24,7 @@ app.use('/tre', function (req, res, next) {
         console.log("Error: " + err.message);
     });
 
+    next();
 })
 
 /*
