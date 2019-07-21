@@ -14,7 +14,7 @@ app.use(express.static('build'))
 
 
 app.use('/tre', function (req, res, next) {
-    axios.get('https://sthdata.tampere.fiware.cityvision.cloud/v2/entities/KV-0128-263?attrs=illuminanceLevel%2CactivePower&fromDate=1561986246958&toDate=156259104695',
+    axios.get('https://sthdata.tampere.fiware.cityvision.cloud/v2/entities/KV-0121-314?attrs=illuminanceLevel%2CactivePower&fromDate=1561986246958&toDate=156259104695',
             { 'headers': { "FIWARE-Service": "tampere" } })
         .then(response => {
             res.statusCode = 200;
