@@ -6,7 +6,7 @@ const app = express()
 
 app.use(express.static('build'))
 
-https.get('https://context.tampere.fiware.cityvision.cloud/v2/entities?limit=800&offset=0&type=Streetlight%2CStreetlightControlCabinet%2CAmbientLightSensor%2CWasteContainer', (resp) => {
+https.get('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY', (resp) => {
   let data = '';
 
   // A chunk of data has been recieved.
@@ -16,7 +16,7 @@ https.get('https://context.tampere.fiware.cityvision.cloud/v2/entities?limit=800
 
   // The whole response has been received. Print out the result.
   resp.on('end', () => {
-    console.log(JSON.parse(data).explanation);
+    //console.log(JSON.parse(data).explanation);
   });
 
 }).on("error", (err) => {
