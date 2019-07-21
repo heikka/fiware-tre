@@ -16,9 +16,9 @@ app.use('/tre', function (req, res, next) {
             { 'headers': { "FIWARE-Service": "tampere" } })
         .then(response => {
             res.statusCode = 200;
-            res.setHeader('Content-Type', 'application/json');
+            res.setHeader('Content-Type', 'text/plain');
             //res.end(response.data);
-            res.end(response.data);
+            res.end(JSON.stringify(response.data));
             console.log('ok:', response.data);            
         })
         .catch(error => {
