@@ -10,9 +10,11 @@ app.use(express.static('build'))
 //axios.get('https://context.tampere.fiware.cityvision.cloud/v2/entities?limit=800&offset=0&type=Streetlight%2CStreetlightControlCabinet%2CAmbientLightSensor%2CWasteContainer',
 // { 'headers': { "FIWARE-Service": "tampere" } })
 
+//https://sthdata.tampere.fiware.cityvision.cloud/v2/entities/KV-0128-263?attrs=illuminanceLevel%2CactivePower&fromDate=1561986246958&toDate=156259104695
+
 
 app.use('/tre', function (req, res, next) {
-    axios.get('https://context.tampere.fiware.cityvision.cloud/v2/entities?limit=800&offset=0&type=Streetlight%2CStreetlightControlCabinet%2CAmbientLightSensor%2CWasteContainer',
+    axios.get('https://sthdata.tampere.fiware.cityvision.cloud/v2/entities/KV-0128-263?attrs=illuminanceLevel%2CactivePower&fromDate=1561986246958&toDate=156259104695',
             { 'headers': { "FIWARE-Service": "tampere" } })
         .then(response => {
             res.statusCode = 200;
