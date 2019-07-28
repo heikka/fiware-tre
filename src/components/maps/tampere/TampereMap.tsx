@@ -738,15 +738,7 @@ export const TampereMap: React.SFC<MapProps> = ({ mapPointSelected, clearAllSele
                             }
                         }
                     });
-
-                    //var point = [23.785732755030665, 61.48981673858984];
-                    //var pt = turf.point(point);
-                    //var poly = turf.polygon(coords);
-
-                    //var inside = turf.booleanPointInPolygon(pt, poly);
                 }
-
-                //console.log('booleanPointInPolygon', turf.booleanPointInPolygon(pt, poly));
 
             }
         }
