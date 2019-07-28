@@ -2,18 +2,18 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { AppState } from "../../store";
 
-import { MapState } from "../../store/map/maptypes";
+import { MapState } from "../../store/map/mapactiontypes";
 import { selectMapId } from "../../store/map/mapactions";
 
 import { TampereMap } from "./tampere/TampereMap";
 
 //import { thunkSelectMapId } from "./thunks";
-
+/*
 interface AppProps {
   selectMapIdHandler: typeof selectMapId;
   map: MapState;
 }
-
+*/
 export type UpdateMessageParam = React.SyntheticEvent<{ value: string }>;
 
 //export class VisionMap extends React.Component<AppProps> {
@@ -45,10 +45,8 @@ export type UpdateMessageParam = React.SyntheticEvent<{ value: string }>;
   render() {
     return (
       <>
-        <TampereMap
-          zoom={10}
-          selectMapId={this.selectMapIdHandler}
-        />
+        TampereMap
+          zoom=10
       </>
     );
   }

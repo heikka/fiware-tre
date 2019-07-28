@@ -1,19 +1,21 @@
+import { Reducer } from 'redux';
+
 import {
     MapState,
     MapActionTypes,
     SELECT_MAP_ID,
     UNSELECT_MAP_ID
-} from './maptypes';
+} from './mapactiontypes';
 
 
 const initialState: MapState = {
     selectedMapPoints: []
 }
 
-export const mapreducer = (state = initialState, action: MapActionTypes) => {
+export const mapreducer: Reducer<MapState, MapActionTypes>  = (state = initialState, action: MapActionTypes)=> {
+
     switch (action.type) {
         case SELECT_MAP_ID:
-            console.log('mapreducer SELECT_MAP_ID', action);
             return {
                 ...state,
                 selectedMapPoints: [...state.selectedMapPoints, action.payload]

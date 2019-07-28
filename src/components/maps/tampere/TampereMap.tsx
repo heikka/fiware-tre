@@ -1,6 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Dispatch } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
+
+import { Action } from 'redux'
+import { ThunkAction } from 'redux-thunk'
+
 
 import {
     Feature, FeatureCollection, GeometryCollection, LineString,
@@ -10,12 +14,16 @@ import {
 import { identifier, updateExpression } from '@babel/types';
 
 
-import { MapState } from '../../../store/map/maptypes';
+import { MapState, MapPoint, MapActionTypes, SELECT_MAP_ID } from '../../../store/map/mapactiontypes';
 import { selectMapId, unselectMapId } from '../../../store/map/mapactions';
 import { AppState } from '../../../store';
-
+import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
+import { EventDispatcher } from '@amcharts/amcharts4/core';
 
 var mapboxgl = require('mapbox-gl/dist/mapbox-gl.js');
+
+var MapboxDraw = require('@mapbox/mapbox-gl-draw');
+var turf = require('@turf/turf');
 
 interface LatLng {
     lat: number,
@@ -28,11 +36,16 @@ interface LatLng {
 }
 
 interface MapProps {
-    //readonly selectMapId?: typeof selectMapId,
-    selectMapId: (id: string) => void;
-//    readonly unselectMapId?: typeof unselectMapId,
-//    readonly map?: MapState,
-    readonly zoom: number
+    mapPointSelected: any,
+    clearAllSelectedMapPoints: any
+    //readonly selectMapId: typeof selectMapId,
+    //selectMapId: (id: string) => void;
+    //    readonly unselectMapId?: typeof unselectMapId,
+    //    readonly map?: MapState,
+    readonly zoom: number,
+    //readonly onSelectMapId: typeof selectMapId,
+    //onSelectMapId: any
+    //thunkSendMessage: any;
 }
 
 
@@ -52,13 +65,18 @@ const images = [
 ];
 
 
-export const TampereMap: React.SFC<MapProps> = ({zoom, selectMapId}: MapProps) => {
+const mapStateToProps = (state: AppState) => ({
+    selectedMapPoints: state.map.selectedMapPoints
+});
+
+
+export const TampereMap: React.SFC<MapProps> = ({ mapPointSelected, clearAllSelectedMapPoints }: MapProps) => {
 
     const [markers, setMarkers] = useState([]);
-    const [featureCollection, setFeatureCollection] = useState({        
+    const [featureCollection, setFeatureCollection] = useState({
     });
 
-    selectMapId('');
+    //selectMapId('');
 
     useEffect(() => {
 
@@ -235,6 +253,22 @@ export const TampereMap: React.SFC<MapProps> = ({zoom, selectMapId}: MapProps) =
         const nav = new mapboxgl.NavigationControl();
         map.addControl(nav, 'top-right');
 
+        // draw
+        var draw = new MapboxDraw({
+            displayControlsDefault: false,
+            controls: {
+                polygon: true,
+                trash: true
+            }
+        });
+        map.addControl(draw);
+        map.on('draw.create', updateArea);
+        map.on('draw.delete', updateArea);
+        map.on('draw.update', updateArea);
+
+
+        // popup
+
         var popup = new mapboxgl.Popup({
             closeButton: false,
             closeOnClick: true
@@ -277,7 +311,6 @@ export const TampereMap: React.SFC<MapProps> = ({zoom, selectMapId}: MapProps) =
 
         map.on('click', 'streetlight', function (e: any) {
 
-console.log('click', );
 
             //map.on('mouseenter', 'streetlight', function (e: any) {
             // Change the cursor style as a UI indicator.
@@ -288,6 +321,14 @@ console.log('click', );
 
             let p: any = e.features[0].properties;
 
+            //console.log('clicked selectMapId ', p);
+
+            //selectMapId({ id: p.itemId });
+            //onSelectMapId({ id: p.itemId });
+            //thunkSendMessage({ id: p.itemId })
+
+            mapPointSelected(p.itemId, p.streetAddress);
+
             let html: string = "<div class='popup-menu'>";
             html += p.itemType;
             html += " ";
@@ -295,7 +336,7 @@ console.log('click', );
             html += "<br>";
             html += p.streetAddress;
 
-            selectMapId(p.itemId);
+            //selectMapId(p.itemId);
 
             html += "<hr><a href='#'>Switch ON</a>";
             html += "<br><a href='#'>Set work in progress</a>";
@@ -663,12 +704,65 @@ console.log('click', );
                 '" fill="' + color + '" stroke="#343332" stroke-width="0.2" stroke-opacity="1" />'].join(' ');
         }
 
-    });
+        function updateArea(e: any) {
 
+            var data = draw.getAll();
+
+            var answer = document.getElementById('calculated-area');
+            if (data.features.length > 0) {
+                var area = turf.area(data);
+                // restrict to area to 2 decimal points
+                // var rounded_area = Math.round(area * 100) / 100;
+
+                for (var i = 0; i < data.features.length; i++) {
+                    var coords = data.features[i]['geometry']['coordinates'];
+                    var poly = turf.polygon(coords);
+
+                    markers.forEach(marker => {
+
+                        let location = marker["location"];
+                        if (location) {
+                            let value = location["value"];
+                            let coordinates = value["coordinates"];
+                            if (coordinates) {
+                                var pt = turf.point(coordinates);
+                                var inside = turf.booleanPointInPolygon(pt, poly);
+                                if (inside) {
+                                    let streetAddress = "";
+                                    let address = marker["address"];
+                                    if (address && address['value'] && address['value']['streetAddress'])
+                                        streetAddress = address['value']['streetAddress'];
+            
+                                    mapPointSelected(marker['id'], streetAddress);
+                                }
+                            }
+                        }
+                    });
+
+                    //var point = [23.785732755030665, 61.48981673858984];
+                    //var pt = turf.point(point);
+                    //var poly = turf.polygon(coords);
+
+                    //var inside = turf.booleanPointInPolygon(pt, poly);
+                }
+
+                //console.log('booleanPointInPolygon', turf.booleanPointInPolygon(pt, poly));
+
+            }
+        }
+
+
+    });
 
     return (
         <div style={{ width: '100%', height: '100%' }}>
             <div ref={el => mapContainer = el} className="absolute top right left bottom" style={{ width: '100%', height: '100%' }} />
+            <button onClick={clearAllSelectedMapPoints} style={ { position: "absolute", top: 75, left: 10, border: 0,borderRadius: 10, height: 30, cursor: 'pointer'} }>Clear selections</button>
         </div>
     );
 }
+
+export default connect(
+    mapStateToProps
+    //mapDispatchToProps
+)(TampereMap);

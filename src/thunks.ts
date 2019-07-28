@@ -9,7 +9,8 @@ export const thunkSendMessage = (
   const asyncResp = await mapAPI();
   dispatch(
     selectMapId({
-      id
+      id: id,
+      address: id
     })
   );
 };

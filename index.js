@@ -21,7 +21,6 @@ app.use('/v2', function (req, res, next) {
             res.setHeader('Content-Type', 'text/plain');
             //res.end(response.data);
             res.end(JSON.stringify(response.data));
-            console.log('ok:', response.data);
         })
         .catch(error => {
             res.status(500).send('[HT0001] Error in get data : ' + error);

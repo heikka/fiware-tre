@@ -1,9 +1,9 @@
 import React from 'react';
 import './App.css';
 import { Layout } from './hoc/Layout/Layout';
-import { CityVision } from './views/CityVision/CityVision';
+import CityVision from './views/CityVision/CityVision';
 
-const App: React.FC = () => {
+const App: React.FunctionComponent = (): JSX.Element => {
 
   return (
     <div className="App">
@@ -15,3 +15,4 @@ const App: React.FC = () => {
 }
 
 export default App;
+

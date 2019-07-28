@@ -5,6 +5,9 @@
   "dependencies": {
     "@amcharts/amcharts4": "^4.5.3",
     "@amcharts/amcharts4-geodata": "^4.1.6",
+    "@mapbox/mapbox-gl-draw": "^1.1.2",
+    "@turf/boolean-point-in-polygon": "^6.0.1",
+    "@turf/turf": "^5.1.6",
     "@types/geojson": "^7946.0.7",
     "@types/jest": "24.0.13",
     "@types/mapbox-gl": "^0.51.7",

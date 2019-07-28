@@ -8,7 +8,7 @@ import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import am4themes_dark from "@amcharts/amcharts4/themes/dark";
-import { MapPoint, MapState } from '../../../store/map/maptypes';
+import { MapPoint, MapState } from '../../../store/map/mapactiontypes';
 import { selectMapId } from '../../../store/map/mapactions';
 
 am4core.useTheme(am4themes_animated);
@@ -37,7 +37,8 @@ export class TrendChart extends Component<AppProps> {
         console.log('**********TrendChart.componentDidMount');
 
         this.props.selectMapId({
-            id: "MAP_ID_123"
+            id: "MAP_ID_123",
+            address: 'some address'
           });
 
         /*
@@ -100,8 +101,6 @@ export class TrendChart extends Component<AppProps> {
     }
 
     render() {
-
-        console.log('**********TrendChart.render');
 
         return (
             <>
